@@ -119,12 +119,25 @@ public class FabricaDeJuegos{
     	}
     }
 
-    public class Coordenada{
+    public class Coordenada extends Object{
         public int x;
         public int y;
         public Coordenada(int x, int y){
             this.x = x;
             this.y = y;
+        }
+
+        @Override
+        public boolean equals(Object o){
+            if(o instanceof Coordenada){
+                Coordenada c = (Coordenada)o;
+                return (this.x == c.x) && (this.y == c.y);
+            }
+            return false;
+        }
+
+        public String toString(){
+            return "(" + x + "," + y + ")";
         }
     }
 
@@ -204,8 +217,9 @@ public class Submarinos extends Juego{
                         Coordenada c = new Coordenada(k,j);
                         sop("Agregando coordenada: " + k + "," +j);
                         if(BarcosJugador.contains(c)){
-                            sop("Este Barco");
+                            sop("Este Barco" + c);
                             for(int l = k; l==i;l--){
+                                sop("Eliminando coordenada: " + l + "," +j);
                                 BarcosJugador.remove((new Coordenada(l,j)));
                             }
                             posicionValida = false;
@@ -217,8 +231,12 @@ public class Submarinos extends Juego{
                     for(int k = j; k<(j+t-1);k++){
                         tableroJugador[i][k] = 1;
                         Coordenada c = new Coordenada(j,k);
+                        sop("Agregando coordenada: " + i + "," +k);
+                        sop(BarcosJugador.toString());
                         if(BarcosJugador.contains(c)){
+                            sop("Este Barco"+c);
                             for(int l = k; l==i;l--){
+                                sop("Eliminando coordenada: " + i + "," +l);
                                 BarcosJugador.remove((new Coordenada(j,l)));
                             }
                             posicionValida = false;
@@ -344,7 +362,9 @@ public class Submarinos extends Juego{
         boolean tiroValido = false;
         while(!tiroValido){
             try{
+                sop("Coordenada x");
                 int i = Integer.parseInt(scan.nextLine());
+                sop("Coordenada y");
                 int j = Integer.parseInt(scan.nextLine());
                 if((i >= tamTab || i < 0)|| (j >= tamTab || j < 0)){
                     sop("Tu tiro no cae dentro del tablero.");
