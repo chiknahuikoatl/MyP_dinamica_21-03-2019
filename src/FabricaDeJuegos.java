@@ -253,6 +253,8 @@ public class Submarinos extends Juego{
                 noPuestosTodos = Barcos.size() != 0;
             }catch(NumberFormatException e){
                 sop("Entrada inválida. Vuelve a elegir.");
+            }catch(IndexOutOfBoundsException e){
+                sop("El índice que elegiste no es válido.");
             }
         }
 
