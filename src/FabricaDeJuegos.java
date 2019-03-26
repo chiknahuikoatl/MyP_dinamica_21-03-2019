@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -29,7 +30,13 @@ public class FabricaDeJuegos{
 	int i = Integer.parseInt(scan.nextLine());
 	switch(i){
 	case 1: juego = new PPT();
-	    break;
+        break;
+        
+    case 2:
+        sop("Selecciona el tamaño de tu tablero: ");
+        i = Integer.parseInt(scan.nextLine());
+        juego = new Submarinos(i);
+        break;
 	default: juego = new JuegoDummy();
 	}
 	return juego;
@@ -113,8 +120,8 @@ public class FabricaDeJuegos{
     }
 
     public class Coordenada{
-        int x;
-        int y;
+        public int x;
+        public int y;
         public Coordenada(int x, int y){
             this.x = x;
             this.y = y;
@@ -134,11 +141,11 @@ public class Submarinos extends Juego{
     private int[][] tableroJugador;
     private int[][] tableroComputadora;
 
-    private LinkedList<Coordenada> BarcosJugador;
-    private LinkedList<Coordenada> BarcosComputadora;
+    private ArrayList<Coordenada> BarcosJugador;
+    private ArrayList<Coordenada> BarcosComputadora;
 
     public Submarinos(int tamTab){
-        if(tamanoTablero > 5){
+        if(tamTab > 5){
             this.tamTab = tamTab;
             tableroJugador = new int[tamTab][tamTab];
             tableroComputadora = new int[tamTab][tamTab];
@@ -148,13 +155,15 @@ public class Submarinos extends Juego{
             tableroComputadora = new int[5][5];
         }
 
-        BarcosJugador = new LinkedList<Coordenada>();
-        BarcosJugador = new LinkedList<Coordenada>();
+        BarcosJugador = new ArrayList<Coordenada>();
+        BarcosComputadora = new ArrayList<Coordenada>();
+        creaTableroUsuario();
+        creaTableroComputadora();
     }
 
     public void creaTableroUsuario(){
         boolean noPuestosTodos = true;
-        ArrayList<Int> Barcos = new  ArrayList<>(Arrays.asList(5,4,3,2,2));
+        ArrayList<Integer> Barcos = new  ArrayList<>(Arrays.asList(5,4,3,2,2));
         while(noPuestosTodos){
             sop("Tamaños de barcos disponibles: ");
             sop(Barcos.toString());
@@ -165,37 +174,37 @@ public class Submarinos extends Juego{
                     sop("Indice invalido, vuelve a seleccionar:");
                     continue;
                 }
-                int t = Barcos.elemIndex(b);
+                int t = Barcos.get(b);
+                sop("Has seleccionado el barco de tamaño " + t);
+                sop("Selecciona las coordenadas:");
+                sop("Coordenada x");
                 int i = Integer.parseInt(scan.nextLine());
+                sop("Coordenada y");
                 int j = Integer.parseInt(scan.nextLine());
                 if(i < 0 || i > tamTab || j < 0 || j > tamTab){
                     sop("Coordenadas inválidas.");
                     continue;
                 }
+                sop("Selecciona la orientacion: 1) Vertical 2) Horizontal");
                 int o =  Integer.parseInt(scan.nextLine()); // Orientación del barco
-                if((o == 1 && (i + t) > tamTab)|| (o == 2 && (j+t)>tamTab)){
+                if((o == 1 && (i + t-1) > tamTab)|| (o == 2 && (j+t-1)>tamTab)){
                     sop("La posición o tamaño de tu barco no cuadra en el tablero.");
+                    sop("Coordenada inicial: " + i + "," +  j);
+                    if (o==1) {
+                        sop("ultima coordenada: " + (i+t) + " , " + j);  
+                    } else {
+                        sop("ultima coordenada: " + i + " , " + (j+t));                                                
+                    }
                     continue;
                 }
                 boolean posicionValida = true;
                 if(o == 1){
-                    for(int k = i; k<(i+t);k++){
-                        tableroJugador[j][k] = 1;
-                        Coordenada c = new Coordenada(j,k);
-                        if(BarcosJugador.contains(c)){
-                            for(int l = k; l==i;l--){
-                                BarcosJugador.remove((new Coordenada(j,k)));
-                            }
-                            posicionValida = false;
-                            break;
-                        }
-                        BarcosJugador.add(c);
-                    }
-                }else{
-                    for(int k = j; k<(j+t);k++){
-                        tableroJugador[k][i] = 1;
+                    for(int k = i; k<(i+t-1);k++){
+                        tableroJugador[k][j] = 1;
                         Coordenada c = new Coordenada(k,j);
+                        sop("Agregando coordenada: " + k + "," +j);
                         if(BarcosJugador.contains(c)){
+                            sop("Este Barco");
                             for(int l = k; l==i;l--){
                                 BarcosJugador.remove((new Coordenada(l,j)));
                             }
@@ -204,25 +213,40 @@ public class Submarinos extends Juego{
                         }
                         BarcosJugador.add(c);
                     }
+                }else{
+                    for(int k = j; k<(j+t-1);k++){
+                        tableroJugador[i][k] = 1;
+                        Coordenada c = new Coordenada(j,k);
+                        if(BarcosJugador.contains(c)){
+                            for(int l = k; l==i;l--){
+                                BarcosJugador.remove((new Coordenada(j,l)));
+                            }
+                            posicionValida = false;
+                            break;
+                        }
+                        BarcosJugador.add(c);
+                    }
                 }
-                if(posicionValida){
+                if(!posicionValida){
                     sop("La posicion del barco esta sobre otro barco.");
                     continue;
                 }
-                Barcos.remove(t);
+                Barcos.remove(new Integer(t));
                 noPuestosTodos = Barcos.size() != 0;
             }catch(NumberFormatException e){
                 sop("Entrada inválida. Vuelve a elegir.");
             }
         }
-        foreach(elem:BarcosJugador){
-            tableroJugador[elem.i][elem.j] = 1;
+
+        for (Coordenada var : BarcosJugador) {
+            tableroJugador[var.x][var.y] = 1;
         }
+
     }
 
     public void creaTableroComputadora(){
         boolean noPuestosTodos = true;
-        ArrayList<Int> Barcos = new  ArrayList<>(Arrays.asList(5,4,3,2,2));
+        ArrayList<Integer> Barcos = new  ArrayList<>(Arrays.asList(5,4,3,2,2));
             Random r = new Random();
             int contador = 0;
             while(contador < 5){
@@ -236,11 +260,11 @@ public class Submarinos extends Juego{
                 boolean posicionValida = true;
                 if(o == 1){
                     for(int k = i; k<(i+t);k++){
-                        tableroComputadora[j][k] = 1;
-                        Coordenada c = new Coordenada(j,k);
+                        tableroComputadora[k][j] = 1;
+                        Coordenada c = new Coordenada(k,j);
                         if(BarcosComputadora.contains(c)){
                             for(int l = k; l==i;l--){
-                                BarcosComputadora.remove(c);
+                                BarcosComputadora.remove((new Coordenada(l,j)));
                             }
                             posicionValida = false;
                             break;
@@ -249,11 +273,11 @@ public class Submarinos extends Juego{
                     }
                 }else{
                     for(int k = j; k<(j+t);k++){
-                        tableroCom[k][i] = 1;
-                        Coordenada c = new Coordenada(k,j);
+                        tableroComputadora[i][k] = 1;
+                        Coordenada c = new Coordenada(i,k);
                         if(BarcosComputadora.contains(c)){
                             for(int l = k; l==i;l--){
-                                BarcosComputadora.remove((new Coordenada(l,j)));
+                                BarcosComputadora.remove((new Coordenada(i,l)));
                             }
                             posicionValida = false;
                             break;
@@ -266,9 +290,10 @@ public class Submarinos extends Juego{
                 }
                 contador ++;
             }
-            foreach(Coordenada elem:BarcosComputadora){
-                tableroComputadora[elem[0]][elem[1]] = 1;
+            for(Coordenada elem : BarcosComputadora){
+                tableroComputadora[elem.x][elem.y] = 1;
             }
+            sop("Seleccionadas casillas para la maquina.");
     }
 
 
@@ -374,7 +399,7 @@ public class Submarinos extends Juego{
                 }else if(tableroComputadora[i][j] == 3){
                     System.out.print("O");
                 }else{
-                    System.our.print("?");
+                    System.out.print("?");
                 }
             }
             sop("");
@@ -384,141 +409,6 @@ public class Submarinos extends Juego{
 
 
 
-    public class PPT extends Juego{
-        int piedra = 1, papel = 2, tijeras = 3; // Codificación de los valores de piedra papel y tijeras.
-
-            int tiradaJugador; //Guarda el valor que el jugador eligió
-            int tiradaComputadora; // Guarda la elección de la computadora.
-
-            /* Para ver si el juego continua*/
-            private boolean juegoTerminado;
-
-            /*Tablero donde se llevará a cabo el juego, debe instanciarse en la
-              clase concreta*/
-            private Tablero tablero;
-
-            // Constructor
-            public PPT(){
-                // Asigna valores por omisión a las tiradas.
-                tiradaJugador = 0;
-                tiradaComputadora = 0;
-            }
-
-            /**
-             * Método que sirve para crear un tablero de cualquier juego que implemente
-             * la clase. No todos los juegos requieren un tablero
-             *
-             * @throws NoRequiereTableroException Si no requiere tablero y se invoca.
-             */
-            public void creaTablero() throws NoRequiereTableroException{
-                throw new NoRequiereTableroException("Piedra Papel o tijera no requiere un tablero.");
-            }
-
-            /**
-             * Método que maneja el turno de la computadora.
-             */
-            public void turnoComputadora(){
-                // Elige aleatoriamente un valor para la computadora.
-                tiradaComputadora = ((new Random()).nextInt(100)%3)+1;
-            }
-
-            /**
-             * Método que maneja el turno del usuario.
-             */
-            public void turnoUsuario(){
-                boolean valorValido = false; // Revisa si el valor dado por el usuario es válido.
-                while(!valorValido){ // Revisa que el usuario introduzca un valor válido.
-                    try{
-                        sop("Puedes elegir tirar: \n"+// Menú de elección
-                            "1) Piedra:\n"+
-                            "2) Papel:\n"+
-                            "3) Tijeras:\n");
-                        int i = Integer.parseInt(scan.nextLine());
-                        if(i>0 && i< 4){
-                            valorValido = true;
-                            tiradaJugador = i;
-                        }
-                    }catch(NumberFormatException e){
-                        // Vuelve a pedir una entrada válida.
-                        sop("Entrada inválida. Vuelve a elegir.");
-                    }
-                }
-            }
-
-            /**
-             * Método que maneja el turno del usuario invitado.
-             */
-            public void turnoUsuarioInvitado(){
-                sop("Metodo no implementado");
-            }
-
-            /**
-             * Método invocado para saber si el juego ha terminado.
-             *
-             * @return
-             */
-            public boolean juegoTerminado() {
-                boolean bandera = tiradaJugador != tiradaComputadora;
-                //El juego termina si no hay empate.
-                if(bandera){// Revisa e imprime quién ganó dependiendo de las elecciones de cada jugador.
-                    if(tiradaJugador == 1){
-                        if(tiradaComputadora == 2){
-                            sop("Gana la maquina");
-                        }else if(tiradaComputadora == 3){
-                            sop("Gana el jugador");
-                        }
-                    }else if(tiradaJugador == 2){
-                        if(tiradaComputadora == 1){
-                            sop("Gana el jugador");
-                        }else if(tiradaComputadora == 3){
-                            sop("Gana la maquina");
-                        }
-                    }else{
-                        if(tiradaComputadora == 1){
-                            sop("Gana la maquina");
-                        }else if(tiradaComputadora == 2){
-                            sop("Gana el jugador");
-                        }
-                    }
-                }
-                return bandera;
-            }
-
-            /**
-             * Método que guarda la puntuación del usuario que está jugando.
-             */
-            public void guardaPuntuacion(){}
-
-            /**
-             * Método que muestra las puntuaciones cuando es invocado.
-             */
-            public void muestraPuntuaciones(){}
-
-            /**
-             * Método que muestra el tablero en pantalla. Al utilizar JavaFX, puede
-             * sustituirse la impresión en pantalla por mostrar una ventana de la
-             * interfaz.
-             */
-            public void muestraTablero() {
-                //Muestra el método toString()
-                sop("Jugador: ");
-                if(tiradaJugador == 1){
-                    sop("Piedra");
-                }else if(tiradaJugador == 2){
-                    sop("Papel");
-                }else if(tiradaJugador == 3){
-                    sop("Tijera");
-                }
-                sop("Computadora: ");
-                if(tiradaComputadora == 1){
-                    sop("Piedra");
-                }else if(tiradaComputadora == 2){
-                    sop("Papel");
-                }else if(tiradaComputadora == 3){
-                    sop("Tijera");
-                }
-            }
-    }
 
     // public class Gato extends Juego{
     //
