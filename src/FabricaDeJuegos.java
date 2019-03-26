@@ -31,7 +31,7 @@ public class FabricaDeJuegos{
 	switch(i){
 	case 1: juego = new PPT();
         break;
-        
+
     case 2:
         sop("Selecciona el tamaño de tu tablero: ");
         i = Integer.parseInt(scan.nextLine());
@@ -185,15 +185,15 @@ public class Submarinos extends Juego{
                     sop("Coordenadas inválidas.");
                     continue;
                 }
-                sop("Selecciona la orientacion: 1) Vertical 2) Horizontal");
+                sop("Selecciona la orientacion: 1) Horizontal 2) Vertical");
                 int o =  Integer.parseInt(scan.nextLine()); // Orientación del barco
                 if((o == 1 && (i + t-1) > tamTab)|| (o == 2 && (j+t-1)>tamTab)){
                     sop("La posición o tamaño de tu barco no cuadra en el tablero.");
                     sop("Coordenada inicial: " + i + "," +  j);
                     if (o==1) {
-                        sop("ultima coordenada: " + (i+t) + " , " + j);  
+                        sop("ultima coordenada: " + (i+t) + " , " + j);
                     } else {
-                        sop("ultima coordenada: " + i + " , " + (j+t));                                                
+                        sop("ultima coordenada: " + i + " , " + (j+t));
                     }
                     continue;
                 }
