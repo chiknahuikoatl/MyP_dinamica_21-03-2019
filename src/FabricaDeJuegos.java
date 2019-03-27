@@ -216,7 +216,6 @@ public class FabricaDeJuegos{
                     for(int k = i; k<(i+t);k++){
                         tableroJugador[k][j] = 1;
                         Coordenada c = new Coordenada(k,j);
-                        sop("Agregando coordenada: " + c.toString());
                         if(BarcosJugador.contains(c)){
                             for(int l = k-1; l==i;l--){
                                 BarcosJugador.remove((new Coordenada(l,j)));
@@ -225,12 +224,12 @@ public class FabricaDeJuegos{
                             break;
                         }
                         BarcosJugador.add(c);
+                        tableroJugador[k][j] = 1;
                     }
                 }else{
                     for(int k = j; k<(j+t);k++){
                         tableroJugador[i][k] = 1;
                         Coordenada c = new Coordenada(i,k);
-                        sop("Agregando coordenada: " + c.toString());
                         if(BarcosJugador.contains(c)){
                             for(int l = k-1; l==i;l--){
                                 BarcosJugador.remove((new Coordenada(i,l)));
@@ -239,6 +238,7 @@ public class FabricaDeJuegos{
                             break;
                         }
                         BarcosJugador.add(c);
+                        tableroJugador[i][k] = 1;
                     }
                 }
                 if(!posicionValida){
@@ -247,14 +247,22 @@ public class FabricaDeJuegos{
                 }
                 Barcos.remove(new Integer(t));
                 noPuestosTodos = Barcos.size() != 0;
+                for (int k = 0; k < tamTab; k++) {
+                    for (int l = 0; l < tamTab; l++) {
+                        if (tableroJugador[k][l]==0) {
+                            System.out.print("M");
+                        }else{
+                            System.out.print("B");
+                        }
+                    }
+                    sop("");
+                }
+    
                 }catch(NumberFormatException e){
                     sop("Entrada inválida. Vuelve a elegir.");
                 }
             }
 
-            for (Coordenada var : BarcosJugador) {
-                tableroJugador[var.x][var.y] = 1;
-            }
 
         }
 
