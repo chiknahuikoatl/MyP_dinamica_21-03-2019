@@ -163,7 +163,8 @@ public class Submarinos extends Juego{
             tableroJugador = new int[tamTab][tamTab];
             tableroComputadora = new int[tamTab][tamTab];
         }else{
-            tamTab = 5;
+            sop("Tamaño insuficiente, seleccionaremos el tamaño 5.");
+            this.tamTab = 5;
             tableroJugador = new int[5][5];
             tableroComputadora = new int[5][5];
         }
@@ -190,17 +191,17 @@ public class Submarinos extends Juego{
                 int t = Barcos.get(b);
                 sop("Has seleccionado el barco de tamaño " + t);
                 sop("Selecciona las coordenadas:");
-                sop("Coordenada x");
-                int i = Integer.parseInt(scan.nextLine());
                 sop("Coordenada y");
+                int i = Integer.parseInt(scan.nextLine());
+                sop("Coordenada x");
                 int j = Integer.parseInt(scan.nextLine());
-                if(i < 0 || i > tamTab || j < 0 || j > tamTab){
+                if(i < 0 || i >= tamTab || j < 0 || j >= tamTab){
                     sop("Coordenadas inválidas.");
                     continue;
                 }
                 sop("Selecciona la orientacion: 1) Vertical 2) Horizontal");
                 int o =  Integer.parseInt(scan.nextLine()); // Orientación del barco
-                if((o == 1 && (i + t-1) > tamTab)|| (o == 2 && (j+t-1)>tamTab)){
+                if((o == 1 && (i + t) > tamTab)|| (o == 2 && (j+t)>tamTab)){
                     sop("La posición o tamaño de tu barco no cuadra en el tablero.");
                     sop("Coordenada inicial: " + i + "," +  j);
                     if (o==1) {
@@ -212,14 +213,12 @@ public class Submarinos extends Juego{
                 }
                 boolean posicionValida = true;
                 if(o == 1){
-                    for(int k = i; k<(i+t-1);k++){
+                    for(int k = i; k<(i+t);k++){
                         tableroJugador[k][j] = 1;
                         Coordenada c = new Coordenada(k,j);
-                        sop("Agregando coordenada: " + k + "," +j);
+                        sop("Agregando coordenada: " + c.toString());
                         if(BarcosJugador.contains(c)){
-                            sop("Este Barco" + c);
-                            for(int l = k; l==i;l--){
-                                sop("Eliminando coordenada: " + l + "," +j);
+                            for(int l = k-1; l==i;l--){
                                 BarcosJugador.remove((new Coordenada(l,j)));
                             }
                             posicionValida = false;
@@ -228,16 +227,13 @@ public class Submarinos extends Juego{
                         BarcosJugador.add(c);
                     }
                 }else{
-                    for(int k = j; k<(j+t-1);k++){
+                    for(int k = j; k<(j+t);k++){
                         tableroJugador[i][k] = 1;
-                        Coordenada c = new Coordenada(j,k);
-                        sop("Agregando coordenada: " + i + "," +k);
-                        sop(BarcosJugador.toString());
+                        Coordenada c = new Coordenada(i,k);
+                        sop("Agregando coordenada: " + c.toString());
                         if(BarcosJugador.contains(c)){
-                            sop("Este Barco"+c);
-                            for(int l = k; l==i;l--){
-                                sop("Eliminando coordenada: " + i + "," +l);
-                                BarcosJugador.remove((new Coordenada(j,l)));
+                            for(int l = k-1; l==i;l--){
+                                BarcosJugador.remove((new Coordenada(i,l)));
                             }
                             posicionValida = false;
                             break;
@@ -263,71 +259,56 @@ public class Submarinos extends Juego{
     }
 
     public void creaTableroComputadora(){
-        boolean noPuestosTodos = true;
         ArrayList<Integer> Barcos = new  ArrayList<>(Arrays.asList(5,4,3,2,2));
-            Random r = new Random();
-            int contador = 0;
-            while(contador < 5){
-                int t = Barcos.get(contador);
-                int i = r.nextInt(tamTab-t);
-                int j = r.nextInt(tamTab-t);
-                sop("Barco tamaño: " + t);
-                int o = r.nextInt(2)+1; // Orientación del barco
-                sop("Coordenada x: "+i);
-                sop("Coordenada y: "+j);
-                sop("Orientacion: "+o);
-                if((o == 1 && (i + t-1) >= tamTab)|| (o == 2 && (j+t-1)>=tamTab)){
-                    sop("Coordenadas fuera de rango.");
-                    continue;
-                }
-                boolean posicionValida = true;
-                if(o == 1){
-                    for(int k = i; k<(i+t-1);k++){
-                        sop("Agregando de barco "+ t);
-                        sop("Coordenada x: "+k);
-                        sop("Coordenada y: "+j);
-                        tableroComputadora[k][j] = 1;
-                        Coordenada c = new Coordenada(k,j);
-                        if(BarcosComputadora.contains(c)){
-                            sop("Los barcos se enciman");
-                            for(int l = k; l==i;l--){
-                                sop("Eliminando "+l  +","+ j);
-                                BarcosComputadora.remove((new Coordenada(l,j)));
-                            }
-                            posicionValida = false;
-                            break;
-                        }
-                        BarcosComputadora.add(c);
-                    }
-                }else{
-                    for(int k = j; k<(j+t);k++){
-                        tableroComputadora[i][k] = 1;
-                        Coordenada c = new Coordenada(i,k);
-                        sop("Agregando de barco "+ t);
-                        sop("Coordenada x: "+i);
-                        sop("Coordenada y: "+k);
-                        if(BarcosComputadora.contains(c)){
-                            sop("Los barcos se enciman");
-                            for(int l = k; l==i;l--){
-                                sop("Eliminando "+l  +","+ j);
-                                BarcosComputadora.remove((new Coordenada(i,l)));
-                            }
-                            posicionValida = false;
-                            break;
-                        }
-                        BarcosComputadora.add(c);
-                    }
-                }
-                if(!posicionValida){
-                    sop("posicion invalida");
-                    continue;
-                }
-                contador ++;
+        Random r = new Random();
+        int contador = 0;
+        while(contador < 5){
+            int t = Barcos.get(contador);
+            int i = r.nextInt(tamTab-t+1);
+            int j = r.nextInt(tamTab-t+1);
+            int o = r.nextInt(2)+1; // Orientación del barco
+            if((o == 1 && (i + t) > tamTab)|| (o == 2 && (j+t)>tamTab)){
+                sop("Elección invalida" + i + "," + j + ":" +t);
+                continue;
             }
-            for(Coordenada elem : BarcosComputadora){
-                tableroComputadora[elem.x][elem.y] = 1;
+            boolean posicionValida = true;
+            if(o == 1){
+                for(int k = i; k<(i+t);k++){
+                    tableroComputadora[k][j] = 1;
+                    Coordenada c = new Coordenada(k,j);
+                    if(BarcosComputadora.contains(c)){
+                        for(int l = k-1; l==i;l--){
+                            BarcosComputadora.remove((new Coordenada(l,j)));
+                        }
+                        posicionValida = false;
+                        break;
+                    }
+                    BarcosComputadora.add(c);
+                }
+            }else{
+                for(int k = j; k<(j+t);k++){
+                    tableroComputadora[i][k] = 1;
+                    Coordenada c = new Coordenada(i,k);
+                    if(BarcosComputadora.contains(c)){
+                        for(int l = k-1; l==i;l--){
+                            BarcosComputadora.remove((new Coordenada(i,l)));
+                        }
+                        posicionValida = false;
+                        break;
+                    }
+                    BarcosComputadora.add(c);
+                }
             }
-            sop("Seleccionadas casillas para la maquina.");
+            if(!posicionValida){
+                sop("Elección invalida, barcos sobrepuestos.");
+                continue;
+            }
+            contador ++;
+        }
+        for(Coordenada elem : BarcosComputadora){
+            tableroComputadora[elem.x][elem.y] = 1;
+        }
+        sop("Seleccionadas casillas para la maquina.");
     }
 
 
@@ -349,9 +330,11 @@ public class Submarinos extends Juego{
         Random r = new Random();
         int i = r.nextInt(tamTab-1);
         int j = r.nextInt(tamTab-1);
-        if(BarcosJugador.contains((new Coordenada(i,j)))){
+        Coordenada c = new Coordenada(i,j);
+        if(BarcosJugador.contains(c)){
+            sop("Ataque en" + c.toString());
             tableroJugador[i][j]=2;
-            BarcosJugador.remove((new Coordenada(i,j)));
+            BarcosJugador.remove(c);
         }
     }
 
@@ -362,9 +345,9 @@ public class Submarinos extends Juego{
         boolean tiroValido = false;
         while(!tiroValido){
             try{
-                sop("Coordenada x");
-                int i = Integer.parseInt(scan.nextLine());
                 sop("Coordenada y");
+                int i = Integer.parseInt(scan.nextLine());
+                sop("Coordenada x");
                 int j = Integer.parseInt(scan.nextLine());
                 if((i >= tamTab || i < 0)|| (j >= tamTab || j < 0)){
                     sop("Tu tiro no cae dentro del tablero.");
@@ -375,7 +358,7 @@ public class Submarinos extends Juego{
                 if(BarcosComputadora.contains(c)){
                     tableroComputadora[i][j]=2;
                     BarcosComputadora.remove(c);
-                }else{
+                }else if(tableroComputadora[i][j]<2){
                     tableroComputadora[i][j] = 3;
                 }
             }catch(NumberFormatException e){
