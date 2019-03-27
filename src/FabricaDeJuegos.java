@@ -31,7 +31,7 @@ public class FabricaDeJuegos{
 	switch(i){
 	case 1: juego = new PPT();
         break;
-        
+
     case 2:
         sop("Selecciona el tamaño de tu tablero: ");
         i = Integer.parseInt(scan.nextLine());
@@ -141,21 +141,21 @@ public class FabricaDeJuegos{
         }
     }
 
-public class Submarinos extends Juego{
-    /* Para ver si el juego continua*/
-    private boolean juegoTerminado;
+    public class Submarinos extends Juego{
+        /* Para ver si el juego continua*/
+        private boolean juegoTerminado;
 
-    /*Tablero donde se llevará a cabo el juego, debe instanciarse en la
-      clase concreta*/
-    private Tablero tablero;
+        /*Tablero donde se llevará a cabo el juego, debe instanciarse en la
+          clase concreta*/
+        private Tablero tablero;
 
-    private int tamTab; // tamaño del tablero
+        private int tamTab; // tamaño del tablero
 
-    private int[][] tableroJugador;
-    private int[][] tableroComputadora;
+        private int[][] tableroJugador;
+        private int[][] tableroComputadora;
 
-    private ArrayList<Coordenada> BarcosJugador;
-    private ArrayList<Coordenada> BarcosComputadora;
+        private ArrayList<Coordenada> BarcosJugador;
+        private ArrayList<Coordenada> BarcosComputadora;
 
     public Submarinos(int tamTab){
         if(tamTab > 5){
@@ -169,11 +169,11 @@ public class Submarinos extends Juego{
             tableroComputadora = new int[5][5];
         }
 
-        BarcosJugador = new ArrayList<Coordenada>();
-        BarcosComputadora = new ArrayList<Coordenada>();
-        creaTableroUsuario();
-        creaTableroComputadora();
-    }
+            BarcosJugador = new ArrayList<Coordenada>();
+            BarcosComputadora = new ArrayList<Coordenada>();
+            creaTableroUsuario();
+            creaTableroComputadora();
+        }
 
     public void creaTableroUsuario(){
         boolean noPuestosTodos = true;
@@ -184,7 +184,7 @@ public class Submarinos extends Juego{
             sop("Selecciona el indice del barco que deseas agregar");
             try{
                 int b = Integer.parseInt(scan.nextLine());
-                if(b < 0 || b > Barcos.size()){
+                if(b < 0 || b >= Barcos.size()){
                     sop("Indice invalido, vuelve a seleccionar:");
                     continue;
                 }
@@ -224,7 +224,7 @@ public class Submarinos extends Juego{
                             posicionValida = false;
                             break;
                         }
-                        BarcosJugador.add(c);
+                        continue;
                     }
                 }else{
                     for(int k = j; k<(j+t);k++){
@@ -235,10 +235,8 @@ public class Submarinos extends Juego{
                             for(int l = k-1; l==i;l--){
                                 BarcosJugador.remove((new Coordenada(i,l)));
                             }
-                            posicionValida = false;
-                            break;
+                            BarcosJugador.add(c);
                         }
-                        BarcosJugador.add(c);
                     }
                 }
                 if(!posicionValida){
@@ -247,16 +245,16 @@ public class Submarinos extends Juego{
                 }
                 Barcos.remove(new Integer(t));
                 noPuestosTodos = Barcos.size() != 0;
-            }catch(NumberFormatException e){
-                sop("Entrada inválida. Vuelve a elegir.");
+                }catch(NumberFormatException e){
+                    sop("Entrada inválida. Vuelve a elegir.");
+                }
             }
-        }
 
-        for (Coordenada var : BarcosJugador) {
-            tableroJugador[var.x][var.y] = 1;
-        }
+            for (Coordenada var : BarcosJugador) {
+                tableroJugador[var.x][var.y] = 1;
+            }
 
-    }
+        }
 
     public void creaTableroComputadora(){
         ArrayList<Integer> Barcos = new  ArrayList<>(Arrays.asList(5,4,3,2,2));
@@ -300,7 +298,6 @@ public class Submarinos extends Juego{
                 }
             }
             if(!posicionValida){
-                sop("Elección invalida, barcos sobrepuestos.");
                 continue;
             }
             contador ++;
@@ -312,16 +309,16 @@ public class Submarinos extends Juego{
     }
 
 
-    /**
-     * Método que sirve para crear un tablero de cualquier juego que implemente
-     * la clase. No todos los juegos requieren un tablero
-     *
-     * @throws NoRequiereTableroException Si no requiere tablero y se invoca.
-     */
-    public void creaTablero() throws NoRequiereTableroException{
-        creaTableroUsuario();
-        creaTableroComputadora();
-    }
+        /**
+         * Método que sirve para crear un tablero de cualquier juego que implemente
+         * la clase. No todos los juegos requieren un tablero
+         *
+         * @throws NoRequiereTableroException Si no requiere tablero y se invoca.
+         */
+        public void creaTablero() throws NoRequiereTableroException{
+            creaTableroUsuario();
+            creaTableroComputadora();
+        }
 
     /**
      * Método que maneja el turno de la computadora.
@@ -362,158 +359,161 @@ public class Submarinos extends Juego{
                     tableroComputadora[i][j] = 3;
                 }
             }catch(NumberFormatException e){
-                sop("Entrada inválida. Vuelve a elegir.");
+                sop("Entrada invalida, vuelve a elegir.");
             }
         }
     }
-
-    /**
-     * Método que maneja el turno del usuario invitado.
-     */
-    public void turnoUsuarioInvitado(){
-        sop("Metodo no implementado");
-    }
-
-    /**
-     * Método invocado para saber si el juego ha terminado.
-     *
-     * @return
-     */
-    public boolean juegoTerminado() {
-        if(BarcosJugador.size()==0){
-            sop("La computadora ha ganado.");
-            return true;
-        }else if(BarcosComputadora.size() == 0){
-            sop("El jugador ha ganado.");
-            return true;
+        /**
+         * Método que maneja el turno del usuario invitado.
+         */
+        public void turnoUsuarioInvitado(){
+            sop("Metodo no implementado");
         }
-        return false;
-    }
 
-    /**
-     * Método que guarda la puntuación del usuario que está jugando.
-     */
-    public void guardaPuntuacion(){
-        sop("Listo");
-    }
+        /**
+         * Método invocado para saber si el juego ha terminado.
+         *
+         * @return
+         */
+        public boolean juegoTerminado() {
+            if(BarcosJugador.size()==0){
+                sop("La computadora ha ganado.");
+                return true;
+            }else if(BarcosComputadora.size() == 0){
+                sop("El jugador ha ganado.");
+                return true;
+            }
+            return false;
+        }
 
-    /**
-     * Método que muestra las puntuaciones cuando es invocado.
-     */
-    public void muestraPuntuaciones(){
-        sop("La puntuacion del usuario es: " + (16-BarcosComputadora.size()));
-    }
+        /**
+         * Método que guarda la puntuación del usuario que está jugando.
+         */
+        public void guardaPuntuacion(){
+            sop("Listo");
+        }
 
-    /**
-     * Método que muestra el tablero en pantalla. Al utilizar JavaFX, puede
-     * sustituirse la impresión en pantalla por mostrar una ventana de la
-     * interfaz.
-     */
-    public void muestraTablero() {
-        //Muestra el método toString()
-        for(int i =0; i < tamTab ; i++){
-            for(int j = 0; j < tamTab; j++){
-                if(tableroComputadora[i][j] == 2){
-                    System.out.print("X");
-                }else if(tableroComputadora[i][j] == 3){
-                    System.out.print("O");
-                }else{
-                    System.out.print("?");
+        /**
+         * Método que muestra las puntuaciones cuando es invocado.
+         */
+        public void muestraPuntuaciones(){
+            sop("La puntuacion del usuario es: " + (16-BarcosComputadora.size()));
+        }
+
+        /**
+         * Método que muestra el tablero en pantalla. Al utilizar JavaFX, puede
+         * sustituirse la impresión en pantalla por mostrar una ventana de la
+         * interfaz.
+         */
+        public void muestraTablero() {
+            //Muestra el método toString()
+            for(int i =0; i < tamTab ; i++){
+                for(int j = 0; j < tamTab; j++){
+                    if(tableroComputadora[i][j] == 2){
+                        System.out.print("X");
+                    }else if(tableroComputadora[i][j] == 3){
+                        System.out.print("O");
+                    }else{
+                        System.out.print("?");
+                    }
                 }
+                sop("");
             }
-            sop("");
         }
     }
-}
 
 
 
 
-    // public class Gato extends Juego{
+    // public abstract class Gato extends Juego{
     //
-    //         /* Para ver si el juego continua*/
-    //         private boolean juegoTerminado;
+    //     /* Para ver si el juego continua*/
+    //     private boolean juegoTerminado;
     //
-    //         /*Tablero donde se llevará a cabo el juego, debe instanciarse en la
-    //           clase concreta*/
-    //         private Tablero tablero;
+    //     /*Tablero donde se llevará a cabo el juego, debe instanciarse en la
+    //       clase concreta*/
+    //     private Tablero tablero;
     //
-    //         /**
-    //          * Método que sirve para crear un tablero de cualquier juego que implemente
-    //          * la clase. No todos los juegos requieren un tablero
-    //          *
-    //          * @throws NoRequiereTableroException Si no requiere tablero y se invoca.
-    //          */
-    //         public abstract void creaTablero() throws NoRequiereTableroException;
+    //     public Gato(){
     //
-    //         /**
-    //          * Método que maneja el turno de la computadora.
-    //          */
-    //         public abstract void turnoComputadora();
+    //     }
     //
-    //         /**
-    //          * Método que maneja el turno del usuario.
-    //          */
-    //         public abstract void turnoUsuario();
+    //     /**
+    //      * Método que sirve para crear un tablero de cualquier juego que implemente
+    //      * la clase. No todos los juegos requieren un tablero
+    //      *
+    //      * @throws NoRequiereTableroException Si no requiere tablero y se invoca.
+    //      */
+    //     public abstract void creaTablero() throws NoRequiereTableroException;
     //
-    //         /**
-    //          * Método que maneja el turno del usuario invitado.
-    //          */
-    //         public abstract void turnoUsuarioInvitado();
+    //     /**
+    //      * Método que maneja el turno de la computadora.
+    //      */
+    //     public abstract void turnoComputadora();
+    //
+    //     /**
+    //      * Método que maneja el turno del usuario.
+    //      */
+    //     public abstract void turnoUsuario();
+    //
+    //     /**
+    //      * Método que maneja el turno del usuario invitado.
+    //      */
+    //     public abstract void turnoUsuarioInvitado();
     //
     //
-    //         /**
-    //          * Método que maneja toda la partida de la instancia del juego. Aquí se
-    //          * pueden generar los ciclos para distintas partidas jugadas.
-    //          *
-    //          * Aquí podría ir una implementación del flujo general de un juego en
-    //          * potencial para todos los juegos. Si no funciona para algún juego, se
-    //          * puede sobreescribir con @Override en la clase concreta.
-    //          *
-    //          * @throws NoRequiereTableroException
-    //          */
-    //         public void jugar() throws NoRequiereTableroException {
-    //             //Comenta la siguiente línea para que puedas ver el ejemplo
-    //             //creaTablero();
-    //             while (!juegoTerminado()) {
-    //                 System.out.println("Seguimos jugando");
-    //                 //Implementen un volado para que el primer turno sea aleatorio.
-    //                 turnoUsuario();
-    //                 turnoComputadora();
-    //                 muestraTablero();
-    //                 juegoTerminado = true;
-    //             }
-    //             System.out.println("Fin del juego");
+    //     /**
+    //      * Método que maneja toda la partida de la instancia del juego. Aquí se
+    //      * pueden generar los ciclos para distintas partidas jugadas.
+    //      *
+    //      * Aquí podría ir una implementación del flujo general de un juego en
+    //      * potencial para todos los juegos. Si no funciona para algún juego, se
+    //      * puede sobreescribir con @Override en la clase concreta.
+    //      *
+    //      * @throws NoRequiereTableroException
+    //      */
+    //     public void jugar() throws NoRequiereTableroException {
+    //         //Comenta la siguiente línea para que puedas ver el ejemplo
+    //         //creaTablero();
+    //         while (!juegoTerminado()) {
+    //             System.out.println("Seguimos jugando");
+    //             //Implementen un volado para que el primer turno sea aleatorio.
+    //             turnoUsuario();
+    //             turnoComputadora();
+    //             muestraTablero();
+    //             juegoTerminado = true;
     //         }
+    //         System.out.println("Fin del juego");
+    //     }
     //
-    //         /**
-    //          * Método invocado para saber si el juego ha terminado.
-    //          *
-    //          * @return
-    //          */
-    //         public boolean juegoTerminado() {
-    //             return juegoTerminado;
-    //         }
+    //     /**
+    //      * Método invocado para saber si el juego ha terminado.
+    //      *
+    //      * @return
+    //      */
+    //     public boolean juegoTerminado() {
+    //         return juegoTerminado;
+    //     }
     //
-    //         /**
-    //          * Método que guarda la puntuación del usuario que está jugando.
-    //          */
-    //         public abstract void guardaPuntuacion();
+    //     /**
+    //      * Método que guarda la puntuación del usuario que está jugando.
+    //      */
+    //     public abstract void guardaPuntuacion();
     //
-    //         /**
-    //          * Método que muestra las puntuaciones cuando es invocado.
-    //          */
-    //         public abstract void muestraPuntuaciones();
+    //     /**
+    //      * Método que muestra las puntuaciones cuando es invocado.
+    //      */
+    //     public abstract void muestraPuntuaciones();
     //
-    //         /**
-    //          * Método que muestra el tablero en pantalla. Al utilizar JavaFX, puede
-    //          * sustituirse la impresión en pantalla por mostrar una ventana de la
-    //          * interfaz.
-    //          */
-    //         public void muestraTablero() {
-    //             //Muestra el método toString()
-    //             System.out.println(tablero.toString());
-    //         }
+    //     /**
+    //      * Método que muestra el tablero en pantalla. Al utilizar JavaFX, puede
+    //      * sustituirse la impresión en pantalla por mostrar una ventana de la
+    //      * interfaz.
+    //      */
+    //     public void muestraTablero() {
+    //         //Muestra el método toString()
+    //         System.out.println(tablero.toString());
+    //     }
     // }
 
     private void sop(String s){
