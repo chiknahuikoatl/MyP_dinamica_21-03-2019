@@ -224,7 +224,7 @@ public class FabricaDeJuegos{
                             posicionValida = false;
                             break;
                         }
-                        continue;
+                        BarcosJugador.add(c);
                     }
                 }else{
                     for(int k = j; k<(j+t);k++){
@@ -235,8 +235,10 @@ public class FabricaDeJuegos{
                             for(int l = k-1; l==i;l--){
                                 BarcosJugador.remove((new Coordenada(i,l)));
                             }
-                            BarcosJugador.add(c);
+                            posicionValida =false;
+                            break;
                         }
+                        BarcosJugador.add(c);
                     }
                 }
                 if(!posicionValida){
