@@ -10,7 +10,7 @@ public abstract class Gato extends Juego{
 
     /*Tablero donde se llevará a cabo el juego, debe instanciarse en la
       clase concreta*/
-    private Tablero tablero;
+    private Tab tablero;
 
     // Señala si inicia el usuario o la computadora.
     private int tiroInicial;
@@ -179,8 +179,8 @@ public abstract class Gato extends Juego{
      * Método que muestra las puntuaciones cuando es invocado.
      */
     public void muestraPuntuaciones(){
-        sop("El usuario     ha ganado %i partidas.", marcador[0]);
-        sop("La computadora ha ganado %i partidas.", marcador[1]);
+        sop("El usuario     ha ganado %i partidas."+ marcador[0]);
+        sop("La computadora ha ganado %i partidas."+ marcador[1]);
     }
 
     /**
