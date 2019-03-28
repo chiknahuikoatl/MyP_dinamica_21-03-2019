@@ -36,6 +36,23 @@ public abstract class Gato extends Juego{
         }
 
         /**
+         * posicionValida. Metodo que determina si un par de 
+         * coordenadas pueden ser usadas en el juego.
+         * @param y Valor para acceder en el tablero
+         * en la primer coordenada.
+         * @param x Valor para acceder al tablero 
+         * en la segunda coordenada.
+         * @return Verdadero si no existe un elemento en esa posicion,
+         * Falso si no puede accesar en esa posicion o esta ocupada.
+         */
+        public boolean posicionValida(int y, int x){
+            if(x<0 || y<0 ||  y>2 || x > 2 || tablero[y][x] !=""){
+                return false;
+            }
+            return true;
+        }
+
+        /**
          * Representación en cadena del tablero.
          * @return s la representación en cadena del tablero.
          */
