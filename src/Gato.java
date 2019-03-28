@@ -3,6 +3,8 @@ import java.util.Random;
 
 public abstract class Gato extends Juego{
 
+    Scanner scan;
+
     /* Para ver si el juego continua*/
     private boolean juegoTerminado;
 
@@ -84,10 +86,10 @@ public abstract class Gato extends Juego{
     }
 
     public Gato(){
-        tablero = new Tab();
-        // Crea un número aleatorio para decidir quien inicia.
-        tiroInicial = new Random().nextInt(2);
+        creaTablero();
+        tiroInicial = new Random().nextInt(2); // Crea un número aleatorio para decidir quien inicia.
         int[] marcador = {0,0};
+        scan = new Scanner(System.in);
     }
 
     /**
@@ -96,7 +98,9 @@ public abstract class Gato extends Juego{
      *
      * @throws NoRequiereTableroException Si no requiere tablero y se invoca.
      */
-    public abstract void creaTablero() throws NoRequiereTableroException;
+    public void creaTablero() throws NoRequiereTableroException{
+        tablero = new Tab();
+    }
 
     /**
      * Método que maneja el turno de la computadora.
@@ -115,7 +119,16 @@ public abstract class Gato extends Juego{
     /**
      * Método que maneja el turno del usuario.
      */
-    public abstract void turnoUsuario();
+    public void turnoUsuario(){
+        try{
+            sop("Elige tus coordenadas para tirar:");
+            sop("Coordenada x: ");
+            int x = Integer.parseInt(scan.nextLine());
+            sop("Coordenada y: ");
+            int y = Integer.parseInt(scan.nextLine());
+            if(tablero.posicionValida(x,y))
+        }
+    }
 
     /**
      * Método que maneja el turno del usuario invitado.
@@ -138,12 +151,10 @@ public abstract class Gato extends Juego{
      */
     @Override
     public void jugar() throws NoRequiereTableroException {
-
         while (!juegoTerminado()) {
             if(true){
                 sop("Holi");
             }
-
         }
         System.out.println("Fin del juego");
     }
@@ -160,12 +171,17 @@ public abstract class Gato extends Juego{
     /**
      * Método que guarda la puntuación del usuario que está jugando.
      */
-    public abstract void guardaPuntuacion();
+    public void guardaPuntuacion(){
+        sop("Puntuación guardada.");
+    }
 
     /**
      * Método que muestra las puntuaciones cuando es invocado.
      */
-    public abstract void muestraPuntuaciones();
+    public void muestraPuntuaciones(){
+        sop("El usuario     ha ganado %i partidas.", marcador[0]);
+        sop("La computadora ha ganado %i partidas.", marcador[1]);
+    }
 
     /**
      * Método que muestra el tablero en pantalla. Al utilizar JavaFX, puede
