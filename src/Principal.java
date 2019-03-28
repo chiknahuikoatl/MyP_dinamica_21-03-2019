@@ -22,7 +22,8 @@ public class Principal{
     	    juego.jugar();
     	}catch (NoRequiereTableroException nrte){
     	    nrte.printStackTrace();
-    	}
+    	}catch(NullPointerException e){
+            System.out.println("Has matado al juego.");
+        }
     }
-
 }

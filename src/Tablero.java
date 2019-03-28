@@ -7,7 +7,7 @@ public interface Tablero{
 
     /**
      *
-     * @return
+     * @return representación en cadena del tablero.
      */
     @Override
     public String toString();

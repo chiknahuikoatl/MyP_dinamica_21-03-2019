@@ -10,8 +10,52 @@ public abstract class Gato extends Juego{
       clase concreta*/
     private Tablero tablero;
 
-    public Gato(){
+    // Señala si inicia el usuario o la computadora.
+    private int tiroInicial;
 
+    // Marcador del juego.
+    private int[] marcador;
+
+    /**
+     * Clase privada que crea un tablero para el juego de gato
+     */
+    private class Tab implements Tablero{
+
+        private String[][] tablero;
+
+        /**
+         * Constructor del tablero
+         */
+        public Tab(){
+            tablero = new String[3][3]; //Crea un nuevo tablero 3*3
+            for(int i = 0; i < 3; i++){//Llena el tablero con espacios
+                for(int j = 0; j < 3; j++){
+                    tablero[i][j] = " ";
+                }
+            }
+        }
+
+        /**
+         * Representación en cadena del tablero.
+         * @return s la representación en cadena del tablero.
+         */
+        public String toString(){
+            String s = "";
+            for(int i = 0; i < 3; i++){
+                for(int j = 0; j < 3; j++){
+                    s += tablero[i][j];
+                }
+                s += "\n";
+            }
+            return s;
+        }
+    }
+
+    public Gato(){
+        tablero = new Tab();
+        // Crea un número aleatorio para decidir quien inicia.
+        tiroInicial = new Random().nextInt(2);
+        int[] marcador = {0,0};
     }
 
     /**
@@ -35,7 +79,10 @@ public abstract class Gato extends Juego{
     /**
      * Método que maneja el turno del usuario invitado.
      */
-    public abstract void turnoUsuarioInvitado();
+    public void turnoUsuarioInvitado(){
+        sop("Método no implementado.");
+        sop("Tomen turnos para jugar con la computadora.");
+    }
 
 
     /**
@@ -48,16 +95,14 @@ public abstract class Gato extends Juego{
      *
      * @throws NoRequiereTableroException
      */
+    @Override
     public void jugar() throws NoRequiereTableroException {
-        //Comenta la siguiente línea para que puedas ver el ejemplo
-        //creaTablero();
+
         while (!juegoTerminado()) {
-            System.out.println("Seguimos jugando");
-            //Implementen un volado para que el primer turno sea aleatorio.
-            turnoUsuario();
-            turnoComputadora();
-            muestraTablero();
-            juegoTerminado = true;
+            if(true){
+                sop("Holi");
+            }
+
         }
         System.out.println("Fin del juego");
     }
@@ -89,5 +134,9 @@ public abstract class Gato extends Juego{
     public void muestraTablero() {
         //Muestra el método toString()
         System.out.println(tablero.toString());
+    }
+
+    private void sop(String s){
+        System.out.println(s);
     }
 }
