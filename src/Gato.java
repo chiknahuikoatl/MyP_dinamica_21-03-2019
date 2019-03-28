@@ -46,10 +46,25 @@ public abstract class Gato extends Juego{
          * Falso si no puede accesar en esa posicion o esta ocupada.
          */
         public boolean posicionValida(int y, int x){
-            if(x<0 || y<0 ||  y>2 || x > 2 || tablero[y][x] !=""){
+            if(x<0 || y<0 ||  y>2 || x > 2 || tablero[y][x] !=" "){
                 return false;
             }
             return true;
+        }
+
+        /**
+         * tirada. Metodo que agrega al tablero una tirada.
+         * Si las coordenadas no son validas, no hará nada.
+         * @param y Coordenada y en el arreglo, y < 3.
+         * @param x Coordenada x en el arreglo, x < 3.
+         * @param s Simbolo del jugador.
+         */
+        public void tirada(int y, int x, String s){
+            if(posicionValida(y, x)){
+                tablero[y][x] = s;
+            }else{
+                sop("La posición de tu tirada es invalida.");
+            }
         }
 
         /**
@@ -86,7 +101,16 @@ public abstract class Gato extends Juego{
     /**
      * Método que maneja el turno de la computadora.
      */
-    public abstract void turnoComputadora();
+    public void turnoComputadora(){
+        Random r = new Random();
+        int i = 0;
+        int j = 0;
+        do {
+            i = r.nextInt(3);
+            j = r.nextInt(3);                
+        } while (!tablero.posicionValida(i,j));
+        tablero.tirada(i, j, "O");
+    }
 
     /**
      * Método que maneja el turno del usuario.
