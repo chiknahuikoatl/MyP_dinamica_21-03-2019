@@ -25,23 +25,41 @@ public class FabricaDeJuegos{
      * @return Una instancia de un juego concreto.
      */
     public Juego juegoNuevo(){
-	Juego juego = null;
-	System.out.println("Qué juego quieres jugar");
-	int i = Integer.parseInt(scan.nextLine());
-	switch(i){
-	case 1: juego = new PPT();
-        break;
-
-    case 2:
-        sop("Selecciona el tamaño de tu tablero: ");
-        i = Integer.parseInt(scan.nextLine());
-        juego = new Submarinos(i);
-        break;
-	default: juego = new JuegoDummy();
-	}
-	return juego;
+        Juego juego = null;
+        System.out.println("Qué juego quieres jugar");
+        menuDeJuegos();
+        int i = Integer.parseInt(scan.nextLine());
+        switch(i){
+        	case 1:
+                juego = new PPT();
+                break;
+            case 2:
+                sop("Selecciona el tamaño de tu tablero: ");
+                i = Integer.parseInt(scan.nextLine());
+                juego = new Submarinos(i);
+                break;
+            case 3:
+                juego = new gato();
+                break;
+        	default: juego = new JuegoDummy();
+    	}
+    	return juego;
     }
 
+    /**
+     * Método "auxiliar" que imprime los juegos disponibles para jugar.
+     * No recibe parámetros ni devuelve nada.
+     */
+    private void menuDeJuegos(){
+        sop("*************************************************");
+        sop("             ----Menu de Juegos----"              );
+        sop("*************************************************");
+        sop("Selecciona la opción del juego que quieres jugar:");
+        sop("1) Piedra, papel o tijeras.");
+        sop("2) Submarinos.");
+        sop("3) Gato.");
+        sop("4) Juego Dummy");
+    }
 
     /**
      * Clase muestra de las clases concretas de juegos. Las definiciones de las
@@ -119,7 +137,7 @@ public class FabricaDeJuegos{
     	}
     }
 
-    public class Coordenada extends Object{
+    private class Coordenada extends Object{
         public int x;
         public int y;
         public Coordenada(int x, int y){
@@ -445,99 +463,6 @@ public class FabricaDeJuegos{
         }
     }
 
-
-
-
-    // public abstract class Gato extends Juego{
-    //
-    //     /* Para ver si el juego continua*/
-    //     private boolean juegoTerminado;
-    //
-    //     /*Tablero donde se llevará a cabo el juego, debe instanciarse en la
-    //       clase concreta*/
-    //     private Tablero tablero;
-    //
-    //     public Gato(){
-    //
-    //     }
-    //
-    //     /**
-    //      * Método que sirve para crear un tablero de cualquier juego que implemente
-    //      * la clase. No todos los juegos requieren un tablero
-    //      *
-    //      * @throws NoRequiereTableroException Si no requiere tablero y se invoca.
-    //      */
-    //     public abstract void creaTablero() throws NoRequiereTableroException;
-    //
-    //     /**
-    //      * Método que maneja el turno de la computadora.
-    //      */
-    //     public abstract void turnoComputadora();
-    //
-    //     /**
-    //      * Método que maneja el turno del usuario.
-    //      */
-    //     public abstract void turnoUsuario();
-    //
-    //     /**
-    //      * Método que maneja el turno del usuario invitado.
-    //      */
-    //     public abstract void turnoUsuarioInvitado();
-    //
-    //
-    //     /**
-    //      * Método que maneja toda la partida de la instancia del juego. Aquí se
-    //      * pueden generar los ciclos para distintas partidas jugadas.
-    //      *
-    //      * Aquí podría ir una implementación del flujo general de un juego en
-    //      * potencial para todos los juegos. Si no funciona para algún juego, se
-    //      * puede sobreescribir con @Override en la clase concreta.
-    //      *
-    //      * @throws NoRequiereTableroException
-    //      */
-    //     public void jugar() throws NoRequiereTableroException {
-    //         //Comenta la siguiente línea para que puedas ver el ejemplo
-    //         //creaTablero();
-    //         while (!juegoTerminado()) {
-    //             System.out.println("Seguimos jugando");
-    //             //Implementen un volado para que el primer turno sea aleatorio.
-    //             turnoUsuario();
-    //             turnoComputadora();
-    //             muestraTablero();
-    //             juegoTerminado = true;
-    //         }
-    //         System.out.println("Fin del juego");
-    //     }
-    //
-    //     /**
-    //      * Método invocado para saber si el juego ha terminado.
-    //      *
-    //      * @return
-    //      */
-    //     public boolean juegoTerminado() {
-    //         return juegoTerminado;
-    //     }
-    //
-    //     /**
-    //      * Método que guarda la puntuación del usuario que está jugando.
-    //      */
-    //     public abstract void guardaPuntuacion();
-    //
-    //     /**
-    //      * Método que muestra las puntuaciones cuando es invocado.
-    //      */
-    //     public abstract void muestraPuntuaciones();
-    //
-    //     /**
-    //      * Método que muestra el tablero en pantalla. Al utilizar JavaFX, puede
-    //      * sustituirse la impresión en pantalla por mostrar una ventana de la
-    //      * interfaz.
-    //      */
-    //     public void muestraTablero() {
-    //         //Muestra el método toString()
-    //         System.out.println(tablero.toString());
-    //     }
-    // }
 
     private void sop(String s){
         System.out.println(s);
