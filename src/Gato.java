@@ -197,27 +197,22 @@ public class Gato extends Juego{
      * Método que maneja el turno del usuario.
      */
     public void turnoUsuario(){
-        int x = 3;
-        int y = 3;
-        while(!t.posicionValida(x,y)){
-            try{
-                sop("Elige tus coordenadas para tirar:");
-                sop("Coordenada x: ");
-                x = Integer.parseInt(scan.nextLine());
-                sop("Coordenada y: ");
-                y = Integer.parseInt(scan.nextLine());
-                if(t.posicionValida(x,y)){
-                    t.tirada(x,y,"X");
-                }else{
-                    throw new IOException();
-                }
-            }catch(IOException e){
-                sop("Tus \"coordenadas\" no son válidas. Vuelve a intentarlo.");
-            }catch(NumberFormatException e){
-                sop("Entrada inválida. Vuelve a elegir coordenadas.");
+        try{
+            sop("Elige tus coordenadas para tirar:");
+            sop("Coordenada x: ");
+            int x = Integer.parseInt(scan.nextLine());
+            sop("Coordenada y: ");
+            int y = Integer.parseInt(scan.nextLine());
+            if(t.posicionValida(x,y)){
+                t.tirada(x,y,"X");
+            }else{
+                throw new IOException();
             }
+        }catch(IOException e){
+            sop("Tus \"coordenadas\" no son válidas. Vuelve a intentarlo.");
+        }catch(NumberFormatException e){
+            sop("Entrada inválida. Vuelve a elegir coordenadas.");
         }
-
     }
 
     /**

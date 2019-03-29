@@ -39,10 +39,6 @@ public class FabricaDeJuegos{
                     juego = new Submarinos(i);
                     break;
                 case 3:
-<<<<<<< HEAD
-=======
-                    //juego = new Gato();
->>>>>>> refs/remotes/origin/master
                     juego = new Gato();
                     break;
                 case 4:
@@ -53,8 +49,6 @@ public class FabricaDeJuegos{
             }
         }catch(NumberFormatException e){
                 sop("Por favor introduce un número válido");
-        }catch(NoRequiereTableroException e){
-            sop("El juego no requiere tablero.");
         }
         return juego;
     }
