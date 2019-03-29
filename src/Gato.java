@@ -10,7 +10,9 @@ public abstract class Gato extends Juego{
 
     /*Tablero donde se llevará a cabo el juego, debe instanciarse en la
       clase concreta*/
-    private Tab tablero;
+    private Tablero tablero;
+
+    private Tab t;
 
     // Señala si inicia el usuario o la computadora.
     private int tiroInicial;
@@ -99,7 +101,8 @@ public abstract class Gato extends Juego{
      * @throws NoRequiereTableroException Si no requiere tablero y se invoca.
      */
     public void creaTablero() throws NoRequiereTableroException{
-        tablero = new Tab();
+        tablero =  new Tab();
+        t = (Tab) tablero;
     }
 
     /**
@@ -112,8 +115,8 @@ public abstract class Gato extends Juego{
         do {
             i = r.nextInt(3);
             j = r.nextInt(3);                
-        } while (!tablero.posicionValida(i,j));
-        tablero.tirada(i, j, "O");
+        } while (!t.posicionValida(i,j));
+        t.tirada(i, j, "O");
     }
 
     /**
@@ -126,7 +129,7 @@ public abstract class Gato extends Juego{
             int x = Integer.parseInt(scan.nextLine());
             sop("Coordenada y: ");
             int y = Integer.parseInt(scan.nextLine());
-            if(tablero.posicionValida(x,y))
+            if(t.posicionValida(x,y))
         }
     }
 
