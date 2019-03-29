@@ -1,4 +1,4 @@
-##Autores:
+Autores:
 >Osvaldo Baruch Acevedo Badillo
 
 >Jerónimo Almeida Rodríguez
