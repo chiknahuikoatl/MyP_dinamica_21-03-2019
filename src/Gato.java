@@ -72,6 +72,47 @@ public abstract class Gato extends Juego{
         }
 
         /**
+         * victoria. Revisa si el tablero actual tiene algun 
+         * elemento que cumpla la condición de que existan 
+         * tres elementos iguales juntos.
+         * @return Verdadero si ha gando alguno.
+         */
+        public boolean victoria(){
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    if(tablero[i][j]!=" "){
+                        String tiro = tablero[i][j];
+                        //Revisa si cumple la condición vertical
+                        if((i+1)<3)
+                            if (tablero[i+1][j]==tiro)
+                                if((i+2)<3)
+                                    if(tablero[i+2][j]==tiro){
+                                        sop("Ha ganado " +tiro);
+                                        return true;
+                                    }
+                        //Revisa si cumple la condición horizontal
+                        if((j+1)<3)
+                            if (tablero[i][j+1]==tiro)
+                                if((j+2)<3)
+                                    if(tablero[i][j+2]==tiro){
+                                        sop("Ha ganado " +tiro);
+                                        return true;
+                                    }
+                        //Revisa si cumple la condición en diagonal
+                        if((i+1)<3 && (j+1)<3)
+                            if (tablero[i+1][j+1]==tiro)
+                                if((i+2)<3 && (j+2)<3)
+                                    if(tablero[i+2][j+2]==tiro){
+                                        sop("Ha ganado " +tiro);
+                                        return true;
+                                    }
+                    }
+                }
+            }
+            return false;
+        }
+
+        /**
          * Representación en cadena del tablero.
          * @return s la representación en cadena del tablero.
          */
@@ -168,7 +209,7 @@ public abstract class Gato extends Juego{
      * @return
      */
     public boolean juegoTerminado() {
-        return juegoTerminado;
+        return t.victoria();
     }
 
     /**
