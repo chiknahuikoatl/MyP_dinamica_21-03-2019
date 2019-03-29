@@ -51,7 +51,7 @@ public abstract class Gato extends Juego{
          * Falso si no puede accesar en esa posicion o esta ocupada.
          */
         public boolean posicionValida(int y, int x){
-            if(x<0 || y<0 ||  y>2 || x > 2 || tablero[y][x] !=" "){
+            if(x<0 || y<0 ||  y>2 || x > 2 || tablero[y][x] != " "){
                 return false;
             }
             return true;
@@ -115,7 +115,7 @@ public abstract class Gato extends Juego{
         int j = 0;
         do {
             i = r.nextInt(3);
-            j = r.nextInt(3);                
+            j = r.nextInt(3);
         } while (!t.posicionValida(i,j));
         t.tirada(i, j, "O");
     }
@@ -130,7 +130,6 @@ public abstract class Gato extends Juego{
             int x = Integer.parseInt(scan.nextLine());
             sop("Coordenada y: ");
             int y = Integer.parseInt(scan.nextLine());
-<<<<<<< HEAD
             if(tablero.posicionValida(x,y)){
                 tablero.tirada(x,y,"X");
             }else{
@@ -140,9 +139,6 @@ public abstract class Gato extends Juego{
             sop("Tus \"coordenadas\" no son válidas. Vuelve a intentarlo.");
         }catch(NumberFormatException e){
             sop("Entrada inválida. Vuelve a elegir coordenadas.");
-=======
-            if(t.posicionValida(x,y))
->>>>>>> 4385f9802dd12bf9ba8c14e879af5257805566ac
         }
     }
 
