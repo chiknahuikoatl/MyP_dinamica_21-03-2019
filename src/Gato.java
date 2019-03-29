@@ -67,14 +67,15 @@ public class Gato extends Juego{
         public void tirada(int y, int x, String s){
             if(posicionValida(y, x)){
                 tablero[y][x] = s;
+                victoria();
             }else{
                 sop("La posición de tu tirada es invalida.");
             }
         }
 
         /**
-         * victoria. Revisa si el tablero actual tiene algun 
-         * elemento que cumpla la condición de que existan 
+         * victoria. Revisa si el tablero actual tiene algun
+         * elemento que cumpla la condición de que existan
          * tres elementos iguales juntos.
          * @return Verdadero si ha gando alguno.
          */
@@ -84,29 +85,38 @@ public class Gato extends Juego{
                     if(tablero[i][j]!=" "){
                         String tiro = tablero[i][j];
                         //Revisa si cumple la condición vertical
-                        if((i+1)<3)
-                            if (tablero[i+1][j]==tiro)
-                                if((i+2)<3)
+                        if((i+1)<3){
+                            if (tablero[i+1][j]==tiro){
+                                if((i+2)<3){
                                     if(tablero[i+2][j]==tiro){
                                         sop("Ha ganado " +tiro);
                                         return true;
                                     }
+                                }
+                            }
+                        }
                         //Revisa si cumple la condición horizontal
-                        if((j+1)<3)
-                            if (tablero[i][j+1]==tiro)
-                                if((j+2)<3)
+                        if((j+1)<3){
+                            if (tablero[i][j+1]==tiro){
+                                if((j+2)<3){
                                     if(tablero[i][j+2]==tiro){
                                         sop("Ha ganado " +tiro);
                                         return true;
                                     }
+                                }
+                            }
+                        }
                         //Revisa si cumple la condición en diagonal
-                        if((i+1)<3 && (j+1)<3)
-                            if (tablero[i+1][j+1]==tiro)
-                                if((i+2)<3 && (j+2)<3)
+                        if((i+1)<3 && (j+1)<3){
+                            if (tablero[i+1][j+1]==tiro){
+                                if((i+2)<3 && (j+2)<3){
                                     if(tablero[i+2][j+2]==tiro){
                                         sop("Ha ganado " +tiro);
                                         return true;
                                     }
+                                }
+                            }
+                        }
                     }
                 }
             }
