@@ -107,11 +107,22 @@ public class Gato extends Juego{
                                 }
                             }
                         }
-                        //Revisa si cumple la condición en diagonal
+                        //Revisa si cumple la condición en diagonal abajo
                         if((i+1)<3 && (j+1)<3){
                             if (tablero[i+1][j+1]==tiro){
                                 if((i+2)<3 && (j+2)<3){
                                     if(tablero[i+2][j+2]==tiro){
+                                        sop("Ha ganado " +tiro);
+                                        return true;
+                                    }
+                                }
+                            }
+                        }
+                        //Revisa si cumple la condición en diagonal arriba
+                        if((i-1)>=0 && (j+1)<3){
+                            if (tablero[i-1][j+1]==tiro){
+                                if((i-2)>=0&& (j+2)<3){
+                                    if(tablero[i-2][j+2]==tiro){
                                         sop("Ha ganado " +tiro);
                                         return true;
                                     }
@@ -146,8 +157,12 @@ public class Gato extends Juego{
         }
     }
 
-    public Gato() throws NoRequiereTableroException{
-        creaTablero();
+    public Gato(){
+        try {
+            creaTablero();
+        } catch (NoRequiereTableroException e) {
+            sop("Este juego si requiere tablero.");
+        }
         tiroInicial = new Random().nextInt(2); // Crea un número aleatorio para decidir quien inicia.
         int[] marcador = {0,0};
         scan = new Scanner(System.in);
