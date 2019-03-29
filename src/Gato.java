@@ -2,7 +2,7 @@ import java.util.Scanner;
 import java.util.Random;
 import java.io.IOException;
 
-public abstract class Gato extends Juego{
+public class Gato extends Juego{
 
     Scanner scan;
 
@@ -130,7 +130,11 @@ public abstract class Gato extends Juego{
     }
 
     public Gato(){
-        creaTablero();
+        try {
+            creaTablero();            
+        } catch (NoRequiereTableroException e) {
+            sop("Este juego si requiere tablero.");
+        }
         tiroInicial = new Random().nextInt(2); // Crea un número aleatorio para decidir quien inicia.
         int[] marcador = {0,0};
         scan = new Scanner(System.in);
@@ -166,19 +170,21 @@ public abstract class Gato extends Juego{
      */
     public void turnoUsuario(){
         try{
-            sop("Elige tus coordenadas para tirar:");
-            sop("Coordenada x: ");
-            int x = Integer.parseInt(scan.nextLine());
-            sop("Coordenada y: ");
-            int y = Integer.parseInt(scan.nextLine());
-            if(tablero.posicionValida(x,y)){
-                tablero.tirada(x,y,"X");
-            }else{
-                throw new IOException();
+            while(true){
+                sop("Elige tus coordenadas para tirar:");
+                sop("Coordenada x: ");
+                int x = Integer.parseInt(scan.nextLine());
+                sop("Coordenada y: ");
+                int y = Integer.parseInt(scan.nextLine());
+                if(t.posicionValida(x,y)){
+                    t.tirada(x,y,"X");
+                    break;
+                }else{
+                    sop("Tus \"coordenadas\" no son válidas. Vuelve a intentarlo.");
+                }
             }
-        }catch(IOException e){
-            sop("Tus \"coordenadas\" no son válidas. Vuelve a intentarlo.");
-        }catch(NumberFormatException e){
+        }
+        catch(NumberFormatException e){
             sop("Entrada inválida. Vuelve a elegir coordenadas.");
         }
     }

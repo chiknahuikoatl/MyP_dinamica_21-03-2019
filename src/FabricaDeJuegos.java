@@ -40,7 +40,7 @@ public class FabricaDeJuegos{
                     break;
                 case 3:
                     //juego = new Gato();
-                    sop("Juego a implementar. Vuelva más tarde.");
+                    juego = new Gato();
                     break;
                 case 4:
                     juego = new JuegoDummy();
