@@ -2,7 +2,7 @@ import java.util.Scanner;
 import java.util.Random;
 import java.io.IOException;
 
-public abstract class Gato extends Juego{
+public class Gato extends Juego{
 
     Scanner scan;
 
@@ -80,6 +80,7 @@ public abstract class Gato extends Juego{
          * @return Verdadero si ha gando alguno.
          */
         public boolean victoria(){
+            boolean estaLleno = true;
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     if(tablero[i][j]!=" "){
@@ -117,6 +118,12 @@ public abstract class Gato extends Juego{
                                 }
                             }
                         }
+                        // Revisa si el tablero está lleno.
+                        if(tablero[i][j] == " "){
+                            return false;
+                        }else{
+                            estaLleno &= true;
+                        }
                     }
                 }
             }
@@ -139,7 +146,7 @@ public abstract class Gato extends Juego{
         }
     }
 
-    public Gato(){
+    public Gato() throws NoRequiereTableroException{
         creaTablero();
         tiroInicial = new Random().nextInt(2); // Crea un número aleatorio para decidir quien inicia.
         int[] marcador = {0,0};
@@ -175,22 +182,27 @@ public abstract class Gato extends Juego{
      * Método que maneja el turno del usuario.
      */
     public void turnoUsuario(){
-        try{
-            sop("Elige tus coordenadas para tirar:");
-            sop("Coordenada x: ");
-            int x = Integer.parseInt(scan.nextLine());
-            sop("Coordenada y: ");
-            int y = Integer.parseInt(scan.nextLine());
-            if(tablero.posicionValida(x,y)){
-                tablero.tirada(x,y,"X");
-            }else{
-                throw new IOException();
+        int x = 3;
+        int y = 3;
+        while(!t.posicionValida(x,y)){
+            try{
+                sop("Elige tus coordenadas para tirar:");
+                sop("Coordenada x: ");
+                x = Integer.parseInt(scan.nextLine());
+                sop("Coordenada y: ");
+                y = Integer.parseInt(scan.nextLine());
+                if(t.posicionValida(x,y)){
+                    t.tirada(x,y,"X");
+                }else{
+                    throw new IOException();
+                }
+            }catch(IOException e){
+                sop("Tus \"coordenadas\" no son válidas. Vuelve a intentarlo.");
+            }catch(NumberFormatException e){
+                sop("Entrada inválida. Vuelve a elegir coordenadas.");
             }
-        }catch(IOException e){
-            sop("Tus \"coordenadas\" no son válidas. Vuelve a intentarlo.");
-        }catch(NumberFormatException e){
-            sop("Entrada inválida. Vuelve a elegir coordenadas.");
         }
+
     }
 
     /**
@@ -199,6 +211,31 @@ public abstract class Gato extends Juego{
     public void turnoUsuarioInvitado(){
         sop("Método no implementado.");
         sop("Tomen turnos para jugar con la computadora.");
+    }
+
+    /**
+     * Método que maneja toda la partida de la instancia del juego. Aquí se
+     * pueden generar los ciclos para distintas partidas jugadas.
+     *
+     * Aquí podría ir una implementación del flujo general de un juego en
+     * potencial para todos los juegos. Si no funciona para algún juego, se
+     * puede sobreescribir con @Override en la clase concreta.
+     *
+     * @throws NoRequiereTableroException
+     */
+    public void jugar() throws NoRequiereTableroException {
+        while (!juegoTerminado()) {
+            if(tiroInicial == 0){
+                turnoUsuario();
+                turnoComputadora();
+                muestraTablero();
+            }else{
+                turnoUsuario();
+                turnoComputadora();
+                muestraTablero();
+            }
+        }
+        muestraPuntuaciones();
     }
 
 
