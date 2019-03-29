@@ -13,6 +13,8 @@ public abstract class Gato extends Juego{
       clase concreta*/
     private Tablero tablero;
 
+    private Tab t;
+
     // Señala si inicia el usuario o la computadora.
     private int tiroInicial;
 
@@ -49,10 +51,25 @@ public abstract class Gato extends Juego{
          * Falso si no puede accesar en esa posicion o esta ocupada.
          */
         public boolean posicionValida(int y, int x){
-            if(x<0 || y<0 ||  y>2 || x > 2 || tablero[y][x] !=""){
+            if(x<0 || y<0 ||  y>2 || x > 2 || tablero[y][x] !=" "){
                 return false;
             }
             return true;
+        }
+
+        /**
+         * tirada. Metodo que agrega al tablero una tirada.
+         * Si las coordenadas no son validas, no hará nada.
+         * @param y Coordenada y en el arreglo, y < 3.
+         * @param x Coordenada x en el arreglo, x < 3.
+         * @param s Simbolo del jugador.
+         */
+        public void tirada(int y, int x, String s){
+            if(posicionValida(y, x)){
+                tablero[y][x] = s;
+            }else{
+                sop("La posición de tu tirada es invalida.");
+            }
         }
 
         /**
@@ -85,13 +102,23 @@ public abstract class Gato extends Juego{
      * @throws NoRequiereTableroException Si no requiere tablero y se invoca.
      */
     public void creaTablero() throws NoRequiereTableroException{
-        tablero = new Tab();
+        tablero =  new Tab();
+        t = (Tab) tablero;
     }
 
     /**
      * Método que maneja el turno de la computadora.
      */
-    public abstract void turnoComputadora();
+    public void turnoComputadora(){
+        Random r = new Random();
+        int i = 0;
+        int j = 0;
+        do {
+            i = r.nextInt(3);
+            j = r.nextInt(3);                
+        } while (!t.posicionValida(i,j));
+        t.tirada(i, j, "O");
+    }
 
     /**
      * Método que maneja el turno del usuario.
@@ -103,6 +130,7 @@ public abstract class Gato extends Juego{
             int x = Integer.parseInt(scan.nextLine());
             sop("Coordenada y: ");
             int y = Integer.parseInt(scan.nextLine());
+<<<<<<< HEAD
             if(tablero.posicionValida(x,y)){
                 tablero.tirada(x,y,"X");
             }else{
@@ -112,6 +140,9 @@ public abstract class Gato extends Juego{
             sop("Tus \"coordenadas\" no son válidas. Vuelve a intentarlo.");
         }catch(NumberFormatException e){
             sop("Entrada inválida. Vuelve a elegir coordenadas.");
+=======
+            if(t.posicionValida(x,y))
+>>>>>>> 4385f9802dd12bf9ba8c14e879af5257805566ac
         }
     }
 
@@ -168,8 +199,8 @@ public abstract class Gato extends Juego{
      * Método que muestra las puntuaciones cuando es invocado.
      */
     public void muestraPuntuaciones(){
-        sop("El usuario     ha ganado %i partidas.", marcador[0]);
-        sop("La computadora ha ganado %i partidas.", marcador[1]);
+        sop("El usuario     ha ganado %i partidas."+ marcador[0]);
+        sop("La computadora ha ganado %i partidas."+ marcador[1]);
     }
 
     /**
