@@ -191,34 +191,9 @@ public abstract class Gato extends Juego{
         sop("Tomen turnos para jugar con la computadora.");
     }
 
-    /**
-     * Método que maneja toda la partida de la instancia del juego. Aquí se
-     * pueden generar los ciclos para distintas partidas jugadas.
-     *
-     * Aquí podría ir una implementación del flujo general de un juego en
-     * potencial para todos los juegos. Si no funciona para algún juego, se
-     * puede sobreescribir con @Override en la clase concreta.
-     *
-     * @throws NoRequiereTableroException
-     */
-    @Override
-    public void jugar() throws NoRequiereTableroException {
-        while (!juegoTerminado()) {
-            if(tiroInicial == 0){
-                turnoUsuario();
-                turnoComputadora();
-            }else{
-                turnoComputadora();
-                turnoUsuario();
-            }
-        }
-        muestraPuntuaciones();
-        sop("Fin del juego");
-    }
 
     /**
-     * Método invocado para saber si el juego ha terminado.
-     *
+     * Método que decide si el juego ha terminado.
      * @return
      */
     public boolean juegoTerminado() {
