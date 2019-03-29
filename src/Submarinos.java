@@ -198,20 +198,13 @@ public class Submarinos extends Juego{
      */
     public void turnoComputadora(){
         Random r = new Random();
-        int i = 0;
-        int j = 0;
-        do {
-            i = r.nextInt(tamTab);
-            j = r.nextInt(tamTab);                
-        } while (tableroJugador[i][j]>=2);
+        int i = r.nextInt(tamTab-1);
+        int j = r.nextInt(tamTab-1);
         Coordenada c = new Coordenada(i,j);
         if(BarcosJugador.contains(c)){
             sop("Ataque en" + c.toString());
             tableroJugador[i][j]=2;
             BarcosJugador.remove(c);
-        }else{
-            sop("Fallo en "+c.toString());
-            tableroJugador[i][j] = 3;
         }
     }
 
