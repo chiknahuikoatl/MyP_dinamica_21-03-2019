@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.Random;
+import java.io.IOException;
 
 public abstract class Gato extends Juego{
 
@@ -38,11 +39,11 @@ public abstract class Gato extends Juego{
         }
 
         /**
-         * posicionValida. Metodo que determina si un par de 
+         * posicionValida. Metodo que determina si un par de
          * coordenadas pueden ser usadas en el juego.
          * @param y Valor para acceder en el tablero
          * en la primer coordenada.
-         * @param x Valor para acceder al tablero 
+         * @param x Valor para acceder al tablero
          * en la segunda coordenada.
          * @return Verdadero si no existe un elemento en esa posicion,
          * Falso si no puede accesar en esa posicion o esta ocupada.
@@ -102,7 +103,15 @@ public abstract class Gato extends Juego{
             int x = Integer.parseInt(scan.nextLine());
             sop("Coordenada y: ");
             int y = Integer.parseInt(scan.nextLine());
-            if(tablero.posicionValida(x,y))
+            if(tablero.posicionValida(x,y)){
+                tablero.tirada(x,y,"X");
+            }else{
+                throw new IOException();
+            }
+        }catch(IOException e){
+            sop("Tus \"coordenadas\" no son válidas. Vuelve a intentarlo.");
+        }catch(NumberFormatException e){
+            sop("Entrada inválida. Vuelve a elegir coordenadas.");
         }
     }
 
@@ -113,7 +122,6 @@ public abstract class Gato extends Juego{
         sop("Método no implementado.");
         sop("Tomen turnos para jugar con la computadora.");
     }
-
 
     /**
      * Método que maneja toda la partida de la instancia del juego. Aquí se
@@ -128,11 +136,16 @@ public abstract class Gato extends Juego{
     @Override
     public void jugar() throws NoRequiereTableroException {
         while (!juegoTerminado()) {
-            if(true){
-                sop("Holi");
+            if(tiroInicial == 0){
+                turnoUsuario();
+                turnoComputadora();
+            }else{
+                turnoComputadora();
+                turnoUsuario();
             }
         }
-        System.out.println("Fin del juego");
+        muestraPuntuaciones();
+        sop("Fin del juego");
     }
 
     /**
